@@ -8,6 +8,7 @@ import {
   Button,
   HStack,
   Text,
+  Link,
 } from "@chakra-ui/react";
 import bg from "../casamento-bg.png";
 import { supabase } from "../supabase";
@@ -15,6 +16,7 @@ import ListaPresentes from "../component/ListaDePresentes";
 import { CustomCheckbox } from "../component/CustomCheckbox";
 import { FullScreenLoading } from "../component/FullScreenLoading";
 import { ConfirmacaoSucesso } from "../component/ConfirmacaoSucesso";
+import { LuDownload } from "react-icons/lu";
 
 interface Acompanhante {
   nome: string;
@@ -75,12 +77,11 @@ export default function MainPage() {
   }
 
   async function carregarPresentes() {
-    const { data } = await supabase
-      .from("presentes")
-      .select("*")
-      .eq("reservado", false);
-
-    setPresentes(data || []);
+    // const { data } = await supabase
+    //   .from("presentes")
+    //   .select("*")
+    //   .eq("reservado", false);
+    // setPresentes(data || []);
   }
 
   async function confirmarTudo() {
@@ -101,10 +102,14 @@ export default function MainPage() {
       setConfirmarLoading(true);
       // RSVP
       if (presenca !== null) {
-        const { error } = await supabase.from("rsvp").insert({
-          nome,
-          vai: presenca,
-        });
+        console.log("presenca = ", presenca);
+        const { error } = await supabase
+          .from("rsvp")
+          .update({
+            nome: convidado?.nome,
+            vai: presenca,
+          })
+          .eq("id", convidado?.id);
 
         if (error) {
           console.error("Erro RSVP:", error);
@@ -211,22 +216,41 @@ export default function MainPage() {
                 Confirmação 💍
               </Heading>
 
-              <Input
-                placeholder="Seu nome"
-                value={convidado?.nome ?? ""}
-                disabled
-                borderColor={erroNome ? "red.500" : "bg.border"}
-                color={"brand.primary"}
+              <Text color="brand.primary" textAlign="center" fontSize="sm">
+                Olá {convidado?.nome ?? ""}!
+              </Text>
+              <Text color="brand.primary" textAlign="justify" fontSize="sm">
+                É com muito carinho que gostaríamos de te convidar para o nosso
+                casamento! A cerimônia acontecerá no dia 12/04/2026 às 11:30h,
+                as demais informações podem ser encontradas no convite
+                disponível abaixo.
+              </Text>
+              <Box textAlign={"center"}>
+                <Link
+                  fontWeight={600}
+                  color={"brand.primary"}
+                  href="/convite.pdf"
+                  download={true}
+                >
+                  Baixar convite <LuDownload />
+                </Link>
+              </Box>
+
+              <CustomCheckbox
+                key={"presenca-check"}
+                label={"Estarei presente!"}
+                checked={presenca === true}
+                onChange={() => {
+                  if (presenca) {
+                    setPresenca(false);
+                  } else {
+                    setPresenca(true);
+                  }
+                }}
               />
 
-              {erroNome && (
-                <Text color="red.500" fontSize="sm">
-                  Informe seu nome para confirmar.
-                </Text>
-              )}
-
               {/* RSVP */}
-              <HStack gap={3}>
+              {/* <HStack gap={3}>
                 <Button
                   flex={1}
                   variant={presenca === true ? "solid" : "outline"}
@@ -250,7 +274,7 @@ export default function MainPage() {
                 >
                   Não poderei ir
                 </Button>
-              </HStack>
+              </HStack> */}
               <Stack width="100%">
                 <Heading size="md" textAlign="center" color="brand.primary">
                   Acompanhantes
@@ -280,16 +304,6 @@ export default function MainPage() {
                 })}
               </Stack>
 
-              {/* Presentes */}
-
-              <ListaPresentes
-                presentes={presentes}
-                presentesSelecionados={presentesSelecionados}
-                setPresentesSelecionados={(ids: string[]) =>
-                  setPresentesSelecionados(ids)
-                }
-              />
-
               <Button
                 onClick={confirmarTudo}
                 loading={confirmarLoading}
@@ -297,7 +311,7 @@ export default function MainPage() {
                 color="white"
                 _hover={{ opacity: 0.9 }}
               >
-                Confirmar
+                Enviar resposta
               </Button>
 
               {mensagem && (

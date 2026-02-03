@@ -1,4 +1,5 @@
-import { Box, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, Link, Text, VStack } from "@chakra-ui/react";
+import { LuExternalLink } from "react-icons/lu";
 
 interface ConfirmacaoSucessoProps {
   nome?: string;
@@ -25,10 +26,17 @@ export function ConfirmacaoSucesso({ nome }: ConfirmacaoSucessoProps) {
         <Text color="brand.primary">
           {nome ? `Obrigado, ${nome}!` : "Obrigado!"}
         </Text>
+
         <Text color="brand.primary" fontSize="sm">
           Ficamos muito felizes em saber da sua resposta. Sua presença (ou
           carinho) significa muito para nós ❤️
         </Text>
+        <Text color="brand.primary" fontSize="sm">
+          Caso deseje nos presentear, por favor visite a nossa
+        </Text>
+        <Link fontWeight={600} color={"brand.primary"} href="#">
+          Lista de Presentes <LuExternalLink />
+        </Link>
         <Text color="brand.primary" fontSize="sm">
           Que Deus abençoe muito!
         </Text>
