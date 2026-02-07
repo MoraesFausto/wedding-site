@@ -1,18 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Box,
-  Stack,
-  Heading,
-  Input,
-  Button,
-  HStack,
-  Text,
-  Link,
-} from "@chakra-ui/react";
+import { Box, Stack, Heading, Button, Text, Link } from "@chakra-ui/react";
 import bg from "../casamento-bg.png";
 import { supabase } from "../supabase";
-import ListaPresentes from "../component/ListaDePresentes";
 import { CustomCheckbox } from "../component/CustomCheckbox";
 import { FullScreenLoading } from "../component/FullScreenLoading";
 import { ConfirmacaoSucesso } from "../component/ConfirmacaoSucesso";
@@ -30,15 +20,8 @@ interface Convidado {
   id: number;
 }
 
-interface Presente {
-  id: string;
-  nome: string;
-  reservado: boolean;
-}
-
 export default function MainPage() {
   const { id } = useParams();
-  const [nome, setNome] = useState("");
   const [convidado, setConvidado] = useState<Convidado | null>(null);
   const [presenca, setPresenca] = useState<boolean | null>(true);
   const [acompanhantesConvidado, setAcompanhantesConvidado] = useState<
@@ -48,8 +31,6 @@ export default function MainPage() {
     []
   );
 
-  const [presentes, setPresentes] = useState<Presente[]>([]);
-  const [erroNome, setErroNome] = useState(false);
   const [confirmado, setConfirmado] = useState(false);
   const [loading, setLoading] = useState(true);
   const [confirmarLoading, setConfirmarLoading] = useState(false);
@@ -91,11 +72,9 @@ export default function MainPage() {
     }
 
     if (convidado?.nome.trim() === "") {
-      setErroNome(true);
       return;
     }
 
-    setErroNome(false);
     setMensagem(null);
 
     try {
@@ -150,7 +129,6 @@ export default function MainPage() {
         if (error) throw error;
       }
 
-      setNome("");
       setAcompanhantesConvidado([]);
       setPresenca(null);
       setPresentesSelecionados([]);

@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Heading, Link, Text, VStack } from "@chakra-ui/react";
 import { LuExternalLink } from "react-icons/lu";
 
 interface ConfirmacaoSucessoProps {
