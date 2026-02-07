@@ -34,7 +34,11 @@ export function ConfirmacaoSucesso({ nome }: ConfirmacaoSucessoProps) {
         <Text color="brand.primary" fontSize="sm">
           Caso deseje nos presentear, por favor visite a nossa
         </Text>
-        <Link fontWeight={600} color={"brand.primary"} href="#">
+        <Link
+          fontWeight={600}
+          color={"brand.primary"}
+          href="https://docs.google.com/forms/d/e/1FAIpQLSd9ELfHe0yMirmN9H1eJIE49tXxP5QAvYr7WzgOwEn4YftQHQ/viewform?usp=publish-editor"
+        >
           Lista de Presentes <LuExternalLink />
         </Link>
         <Text color="brand.primary" fontSize="sm">
