@@ -1,4 +1,4 @@
-import { Stack, Heading } from "@chakra-ui/react";
+import { Stack, Heading, Text } from "@chakra-ui/react";
 import { CustomCheckbox } from "./CustomCheckbox";
 
 export type Presente = { id: string; nome: string };
@@ -18,9 +18,12 @@ export default function ListaPresentes({
 
   return (
     <Stack width="100%">
-      <Heading size="md" textAlign="center" color="brand.primary">
+      <Heading size="lg" textAlign="center" color="brand.primary">
         Lista de presentes
       </Heading>
+      <Text textAlign="center" color={"brand.primary"} fontSize={"sm"}>
+        Caso deseje nos presentear, segue a lista com algumas opções:
+      </Text>
       {presentes.map((p) => {
         const checked = presentesSelecionados.includes(p.id);
 
