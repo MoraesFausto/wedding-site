@@ -1,12 +1,11 @@
-import { Box, Heading, Link, Text, VStack } from "@chakra-ui/react";
-import { LuExternalLink } from "react-icons/lu";
+import { Box, Heading, Text, VStack } from "@chakra-ui/react";
 
-interface ConfirmacaoSucessoProps {
+interface ConfirmacaoPresenteProps {
   nome?: string;
   id?: string;
 }
 
-export function ConfirmacaoSucesso({ nome, id }: ConfirmacaoSucessoProps) {
+export function ConfirmacaoPresente({ nome }: ConfirmacaoPresenteProps) {
   return (
     <Box
       maxW="420px"
@@ -29,19 +28,12 @@ export function ConfirmacaoSucesso({ nome, id }: ConfirmacaoSucessoProps) {
         </Text>
 
         <Text color="brand.primary" fontSize="sm">
-          Ficamos muito felizes em saber da sua resposta. Sua presença (ou
-          carinho) significa muito para nós ❤️
+          Agradecemos imensamente o carinho ❤️
         </Text>
         <Text color="brand.primary" fontSize="sm">
-          Caso deseje nos presentear, por favor visite a nossa
+          Em breve entraremos em contato para combinar a entrega do presente.
         </Text>
-        <Link
-          fontWeight={600}
-          color={"brand.primary"}
-          href={`/gift-list/${id}`}
-        >
-          Lista de Presentes <LuExternalLink />
-        </Link>
+
         <Text color="brand.primary" fontSize="sm">
           Que Deus abençoe muito!
         </Text>

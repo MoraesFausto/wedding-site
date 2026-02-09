@@ -178,7 +178,7 @@ export default function MainPage() {
           px={4}
         >
           {confirmado ? (
-            <ConfirmacaoSucesso nome={convidado?.nome} />
+            <ConfirmacaoSucesso nome={convidado?.nome} id={id} />
           ) : (
             <Stack
               gap={6}
