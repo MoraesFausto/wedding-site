@@ -254,9 +254,11 @@ export default function MainPage() {
                 </Button>
               </HStack> */}
               <Stack width="100%">
-                <Heading size="md" textAlign="center" color="brand.primary">
-                  Acompanhantes
-                </Heading>
+{convidado?.acompanhantes?.length > 0 && (
+  <div>
+    <Heading size="md" textAlign="center" color="brand.primary">
+      Acompanhantes
+    </Heading>
                 {convidado?.acompanhantes.map((p) => {
                   const checked = acompanhantesConvidado.includes(p.id);
 
@@ -280,6 +282,7 @@ export default function MainPage() {
                     />
                   );
                 })}
+  </div>)}
               </Stack>
 
               <Button
