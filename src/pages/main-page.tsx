@@ -254,7 +254,8 @@ export default function MainPage() {
                 </Button>
               </HStack> */}
               <Stack width="100%">
-{convidado?.acompanhantes?.length > 0 && (
+{convidado?.acompanhantes &&
+  convidado.acompanhantes.length > 0 && (
   <div>
     <Heading size="md" textAlign="center" color="brand.primary">
       Acompanhantes
