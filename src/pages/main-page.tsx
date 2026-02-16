@@ -81,7 +81,6 @@ export default function MainPage() {
       setConfirmarLoading(true);
       // RSVP
       if (presenca !== null) {
-        console.log("presenca = ", presenca);
         const { error } = await supabase
           .from("rsvp")
           .update({
