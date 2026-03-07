@@ -269,17 +269,7 @@ export default function ChaDeCozinha() {
                     </div>
                   )}
               </Stack>
-              <Text color="brand.primary" textAlign="center" fontSize="sm">
-                O presente sugerido com muito carinho é este:
-              </Text>
-              <Text
-                color="brand.primary"
-                textAlign="center"
-                fontSize="sm"
-                fontWeight={600}
-              >
-                {`${convidado?.presente}`}
-              </Text>
+
               <Button
                 onClick={confirmarTudo}
                 loading={confirmarLoading}
