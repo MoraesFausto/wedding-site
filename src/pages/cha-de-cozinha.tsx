@@ -246,7 +246,7 @@ export default function ChaDeCozinha() {
                           return (
                             <CustomCheckbox
                               key={p.id}
-                              label={p.nome + ` (${p.presente})`}
+                              label={p.nome}
                               checked={acompanhantesConvidado.includes(p.id)}
                               onChange={() => {
                                 if (checked) {
