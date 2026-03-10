@@ -38,7 +38,7 @@ export default function QRModal({ inviteId, token, isOpen, onClose }: Props) {
 
       // gera QR
       const qrDataUrl = await QRCode.toDataURL(link, {
-        width: 200,
+        width: 175,
         margin: 2,
         color: { dark: "#1b4a92", light: "#fff" },
       });
@@ -47,20 +47,15 @@ export default function QRModal({ inviteId, token, isOpen, onClose }: Props) {
       qrImg.src = qrDataUrl;
 
       qrImg.onload = () => {
-        const tamanho = 150;
-        const margem = 40;
+        const tamanho = 175;
+        const margem = 50;
 
         // fundo branco para o QR
         ctx.fillStyle = "white";
-
-        ctx.fillRect(
-          canvas.width - tamanho - margem - 10,
-          canvas.height - tamanho - margem - 10,
-          tamanho + 20,
-          tamanho + 20
-        );
         const x = (canvas.width - tamanho) / 2;
         const y = canvas.height - tamanho - margem - 125;
+        ctx.fillRect(x, y, tamanho + 20, tamanho + 20);
+
         // desenha QR
         ctx.drawImage(qrImg, x, y, tamanho, tamanho);
 
