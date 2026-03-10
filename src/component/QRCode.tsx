@@ -128,7 +128,7 @@ export default function QRModal({ inviteId, token, isOpen, onClose }: Props) {
         textAlign="center"
       >
         <Text fontWeight="bold" mb={4} color={"brand.primary"}>
-          QR Code do Convite
+          Apresente este código na entrada do evento
         </Text>
 
         {generating && <Text mb={4}>Gerando QR…</Text>}
@@ -148,7 +148,7 @@ export default function QRModal({ inviteId, token, isOpen, onClose }: Props) {
           bg={"brand.primary"}
           mr={3}
         >
-          Baixar PNG
+          Baixar convite
         </Button>
 
         <Button

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Stack, Heading, Button, Text, Link } from "@chakra-ui/react";
+import { Box, Stack, Heading, Button, Text } from "@chakra-ui/react";
 import bg from "../casamento-bg.png";
 import { supabase } from "../supabase";
 import { CustomCheckbox } from "../component/CustomCheckbox";
 import { FullScreenLoading } from "../component/FullScreenLoading";
 import { ConfirmacaoSucesso } from "../component/ConfirmacaoSucesso";
-import { LuDownload, LuQrCode } from "react-icons/lu";
+import { LuQrCode } from "react-icons/lu";
 import QRModal from "../component/QRCode";
 
 interface Acompanhante {
@@ -204,16 +204,7 @@ export default function MainPage() {
                 as demais informações podem ser encontradas no convite
                 disponível abaixo.
               </Text>
-              <Box textAlign={"center"}>
-                <Link
-                  fontWeight={600}
-                  color={"brand.primary"}
-                  href="/convite.pdf"
-                  download={true}
-                >
-                  Baixar convite <LuDownload />
-                </Link>
-              </Box>
+
               <CustomCheckbox
                 key={"presenca-check"}
                 label={"Estarei presente!"}
@@ -272,7 +263,7 @@ export default function MainPage() {
                   bg={"brand.primary"}
                   onClick={() => setOpen(true)}
                 >
-                  Mostrar QR Code <LuQrCode />
+                  Mostrar código do convite <LuQrCode />
                 </Button>
 
                 <QRModal
