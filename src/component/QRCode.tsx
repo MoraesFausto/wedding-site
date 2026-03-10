@@ -96,16 +96,6 @@ export default function QRModal({ inviteId, token, isOpen, onClose }: Props) {
     generate();
   }, [isOpen, inviteId, token]);
 
-  const handleCopyLink = async () => {
-    const base = window.location.origin;
-    const path = `/validate${
-      token ? `?token=${encodeURIComponent(token)}` : ""
-    }`;
-    const url = `${base}${path}`;
-    await navigator.clipboard.writeText(url);
-    alert("Link copiado para a área de transferência");
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -149,15 +139,6 @@ export default function QRModal({ inviteId, token, isOpen, onClose }: Props) {
           mr={3}
         >
           Baixar convite
-        </Button>
-
-        <Button
-          onClick={handleCopyLink}
-          mb={3}
-          color={"white"}
-          bg={"brand.primary"}
-        >
-          Copiar link
         </Button>
 
         <Box mt={4}>
