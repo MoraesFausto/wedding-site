@@ -6,7 +6,8 @@ import { supabase } from "../supabase";
 import { CustomCheckbox } from "../component/CustomCheckbox";
 import { FullScreenLoading } from "../component/FullScreenLoading";
 import { ConfirmacaoSucesso } from "../component/ConfirmacaoSucesso";
-import { LuDownload } from "react-icons/lu";
+import { LuDownload, LuQrCode } from "react-icons/lu";
+import QRModal from "../component/QRCode";
 
 interface Acompanhante {
   nome: string;
@@ -17,7 +18,8 @@ interface Acompanhante {
 interface Convidado {
   nome: string;
   acompanhantes: Acompanhante[];
-  id: number;
+  id: string;
+  token: string;
 }
 
 export default function MainPage() {
@@ -30,7 +32,7 @@ export default function MainPage() {
   const [presentesSelecionados, setPresentesSelecionados] = useState<string[]>(
     []
   );
-
+  const [open, setOpen] = useState<boolean>(false);
   const [confirmado, setConfirmado] = useState(false);
   const [loading, setLoading] = useState(true);
   const [confirmarLoading, setConfirmarLoading] = useState(false);
@@ -40,7 +42,7 @@ export default function MainPage() {
     if (id === undefined) return;
     const { data } = await supabase
       .from("rsvp")
-      .select("id,nome,acompanhantes_rsvp_id_fkey!left (id,nome,vai)")
+      .select("id,nome,token,acompanhantes_rsvp_id_fkey!left (id,nome,vai)")
       .eq("id", id)
       .single();
 
@@ -52,6 +54,7 @@ export default function MainPage() {
       id: data!.id,
       nome: data!.nome,
       acompanhantes: acompanhantesCarregados || [],
+      token: data!.token,
     });
     setAcompanhantesConvidado([...ids]);
     setLoading(false);
@@ -192,7 +195,6 @@ export default function MainPage() {
               <Heading size="lg" textAlign="center" color="brand.primary">
                 Confirmação 💍
               </Heading>
-
               <Text color="brand.primary" textAlign="center" fontSize="sm">
                 Olá {convidado?.nome ?? ""}!
               </Text>
@@ -212,7 +214,6 @@ export default function MainPage() {
                   Baixar convite <LuDownload />
                 </Link>
               </Box>
-
               <CustomCheckbox
                 key={"presenca-check"}
                 label={"Estarei presente!"}
@@ -226,64 +227,61 @@ export default function MainPage() {
                 }}
               />
 
-              {/* RSVP */}
-              {/* <HStack gap={3}>
-                <Button
-                  flex={1}
-                  variant={presenca === true ? "solid" : "outline"}
-                  onClick={() => setPresenca(true)}
-                  background={presenca ? "brand.primary" : "transparent"}
-                  border={"1px solid"}
-                  borderColor={"bg.border"}
-                  color={presenca ? "white" : "bg.border"}
-                >
-                  Estarei presente
-                </Button>
-
-                <Button
-                  flex={1}
-                  variant={presenca === false ? "solid" : "outline"}
-                  onClick={() => setPresenca(false)}
-                  background={presenca ? "transparent" : "brand.primary"}
-                  border={"1px solid"}
-                  color={presenca ? "bg.border" : "white"}
-                  borderColor={"bg.border"}
-                >
-                  Não poderei ir
-                </Button>
-              </HStack> */}
               <Stack width="100%">
-{convidado?.acompanhantes &&
-  convidado.acompanhantes.length > 0 && (
-  <div>
-    <Heading size="md" textAlign="center" color="brand.primary">
-      Acompanhantes
-    </Heading>
-                {convidado?.acompanhantes.map((p) => {
-                  const checked = acompanhantesConvidado.includes(p.id);
+                {convidado?.acompanhantes &&
+                  convidado.acompanhantes.length > 0 && (
+                    <div>
+                      <Heading
+                        size="md"
+                        textAlign="center"
+                        color="brand.primary"
+                      >
+                        Acompanhantes
+                      </Heading>
+                      {convidado?.acompanhantes.map((p) => {
+                        const checked = acompanhantesConvidado.includes(p.id);
 
-                  return (
-                    <CustomCheckbox
-                      key={p.id}
-                      label={p.nome}
-                      checked={acompanhantesConvidado.includes(p.id)}
-                      onChange={() => {
-                        if (checked) {
-                          setAcompanhantesConvidado(
-                            acompanhantesConvidado.filter((id) => id !== p.id)
-                          );
-                        } else {
-                          setAcompanhantesConvidado([
-                            ...acompanhantesConvidado,
-                            p.id,
-                          ]);
-                        }
-                      }}
-                    />
-                  );
-                })}
-  </div>)}
+                        return (
+                          <CustomCheckbox
+                            key={p.id}
+                            label={p.nome}
+                            checked={acompanhantesConvidado.includes(p.id)}
+                            onChange={() => {
+                              if (checked) {
+                                setAcompanhantesConvidado(
+                                  acompanhantesConvidado.filter(
+                                    (id) => id !== p.id
+                                  )
+                                );
+                              } else {
+                                setAcompanhantesConvidado([
+                                  ...acompanhantesConvidado,
+                                  p.id,
+                                ]);
+                              }
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
               </Stack>
+              <>
+                <Button
+                  color={"white"}
+                  bg={"brand.primary"}
+                  onClick={() => setOpen(true)}
+                >
+                  Mostrar QR Code <LuQrCode />
+                </Button>
+
+                <QRModal
+                  inviteId={convidado?.id ?? ""}
+                  token={convidado?.token ?? ""}
+                  isOpen={open}
+                  onClose={() => setOpen(false)}
+                />
+              </>
 
               <Button
                 onClick={confirmarTudo}
@@ -294,7 +292,6 @@ export default function MainPage() {
               >
                 Enviar resposta
               </Button>
-
               {mensagem && (
                 <Text textAlign="center" color={"brand.primary"}>
                   {mensagem}
